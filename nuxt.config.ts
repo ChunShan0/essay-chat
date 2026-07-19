@@ -15,7 +15,10 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/']
+      routes: ['/'],
+      // 忽略带 ?tag= query 的路由：标签筛选是客户端动态行为，
+      // 无需预渲染（线上访问 ?tag=xxx 时返回首页 HTML，客户端再筛选）
+      ignore: [/\?tag=/]
     }
   },
 
