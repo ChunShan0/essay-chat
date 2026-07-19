@@ -15,9 +15,12 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       routes: ['/'],
-      // 忽略带 ?tag= query 的路由：标签筛选是客户端动态行为，
-      // 无需预渲染（线上访问 ?tag=xxx 时返回首页 HTML，客户端再筛选）
-      ignore: [/\?tag=/]
+      // 忽略两类路由：
+      // 1. ?tag= query：标签筛选是客户端动态行为，无需预渲染
+      // 2. /essay-chat/* 带前缀路由：baseURL 导致爬虫爬到带前缀的链接，
+      //    但 pages 自动注册了不带前缀的路由，两者共享 payload 缓存，
+      //    并发写入会 EPERM。GitHub Pages 只需要不带前缀的文件（tags/index.html）
+      ignore: [/\?tag=/, /^\/essay-chat\//]
     }
   },
 
