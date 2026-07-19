@@ -1,4 +1,15 @@
+import { readdirSync } from 'node:fs'
+import { join } from 'node:path'
+
 const isProd = process.env.NODE_ENV === 'production'
+
+// 动态获取所有文章路由用于预渲染
+// 文章详情页是动态路由（[...slug].vue），爬虫爬到的是带 baseURL 前缀的链接
+// （/essay-chat/articles/xxx），被 ignore 排除后不会被预渲染。
+// 需要显式列出不带前缀的路由，GitHub Pages 才能直接返回 HTML。
+const articleRoutes = readdirSync(join(process.cwd(), 'content/articles'))
+  .filter(f => f.endsWith('.md'))
+  .map(f => `/articles/${f.replace(/\.md$/, '')}`)
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
@@ -14,7 +25,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/'],
+      routes: ['/', ...articleRoutes],
       // 忽略两类路由：
       // 1. ?tag= query：标签筛选是客户端动态行为，无需预渲染
       // 2. /essay-chat/* 带前缀路由：baseURL 导致爬虫爬到带前缀的链接，
