@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   },
 
   ssr: true,
-  baseURL: isProd ? '/essay-chat/' : '/',
   nitro: {
     prerender: {
       crawlLinks: true,
@@ -23,6 +22,7 @@ export default defineNuxtConfig({
   },
 
   app: {
+    baseURL: isProd ? '/essay-chat/' : '/',
     head: {
       title: 'Essay · 随笔画像',
       htmlAttrs: { lang: 'zh-CN' },
