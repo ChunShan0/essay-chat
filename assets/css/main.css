@@ -1,10 +1,239 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-bg: #faf9f7;
+  --color-surface: #ffffff;
+  --color-text: #1c1c1c;
+  --color-text-secondary: #6b6b6b;
+  --color-text-tertiary: #9b9b9b;
+  --color-border: #ececea;
+  --color-accent: #4a6b4a;
+  --color-accent-light: #e8efe8;
+  --color-accent-hover: #3d5a3d;
+  --font-serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* 缓动函数 —— 高级感的灵魂在于曲线 */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+/* 自定义滚动条 —— 细腻的质感细节 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d0;
+  border-radius: 4px;
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ===== 通用悬浮工具类 ===== */
+
+/* 上浮卡片效果 */
+.hover-lift {
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -8px rgba(74, 107, 74, 0.15), 0 4px 10px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* 链接下划线动画 —— 从中间向两边展开 */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--color-accent);
+  transition: width 0.35s var(--ease-out-expo), left 0.35s var(--ease-out-expo);
+}
+.link-underline:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* 尊重用户的减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.nuxt-content {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.85;
+  color: #2c2c2c;
+}
+.nuxt-content h1 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+.nuxt-content h2 {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.nuxt-content h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.nuxt-content p {
+  margin-bottom: 1.25rem;
+  color: #3a3a3a;
+}
+.nuxt-content ul, .nuxt-content ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+.nuxt-content ul li {
+  margin-bottom: 0.5rem;
+  list-style: disc;
+  color: #3a3a3a;
+}
+.nuxt-content ol li {
+  margin-bottom: 0.5rem;
+  list-style: decimal;
+  color: #3a3a3a;
+}
+.nuxt-content code {
+  background: #f3f1ec;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  color: #8b5e3c;
+}
+.nuxt-content pre {
+  background: #2d2d2d;
+  padding: 1.1rem 1.25rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+.nuxt-content pre code {
+  background: none;
+  padding: 0;
+  color: #e6e6e6;
+}
+.nuxt-content blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: #555;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+  background: var(--color-accent-light);
+  border-radius: 0 6px 6px 0;
+}
+.nuxt-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s ease, text-decoration-thickness 0.25s var(--ease-out-expo);
+}
+.nuxt-content a:hover {
+  color: var(--color-accent-hover);
+  text-decoration-thickness: 2px;
+}
+.nuxt-content blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: #555;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+  background: var(--color-accent-light);
+  border-radius: 0 6px 6px 0;
+  transition: border-left-width 0.3s var(--ease-out-expo), background-color 0.3s ease;
+}
+.nuxt-content blockquote:hover {
+  border-left-width: 5px;
+  background-color: #dde8dd;
+}
+.nuxt-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+.nuxt-content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
 }
