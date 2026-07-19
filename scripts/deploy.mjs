@@ -86,6 +86,11 @@ function main() {
   console.log("\n=== 第 3 步：初始化 git 并提交 ===");
   run("git init", { cwd: tmpDir, stdio: "pipe" });
   run("git checkout -b gh-pages", { cwd: tmpDir, stdio: "pipe" });
+  // 临时仓库需要单独配置提交身份（从主仓库读取）
+  const userName = execSync("git config user.name", { cwd: ROOT, encoding: "utf8" }).trim();
+  const userEmail = execSync("git config user.email", { cwd: ROOT, encoding: "utf8" }).trim();
+  execSync(`git config user.name "${userName}"`, { cwd: tmpDir });
+  execSync(`git config user.email "${userEmail}"`, { cwd: tmpDir });
   run("git add -A", { cwd: tmpDir, stdio: "pipe" });
 
   const timestamp = new Date().toISOString().replace("T", " ").slice(0, 19);
