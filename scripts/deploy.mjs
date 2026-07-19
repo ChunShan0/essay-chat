@@ -78,7 +78,7 @@ function main() {
     }
   }
 
-  // 添加 .nojekyll（防止 Gitee Pages 忽略 _ 开头的目录，如 _nuxt）
+  // 添加 .nojekyll（防止 GitHub Pages 忽略 _ 开头的目录，如 _nuxt）
   writeFileSync(join(tmpDir, ".nojekyll"), "");
   console.log("✓ 已复制构建产物 + .nojekyll");
 
@@ -111,10 +111,10 @@ function main() {
 
   console.log("\n✓ 部署完成！");
   console.log("\n下一步：");
-  console.log("  1. 进入 Gitee 仓库 → 服务 → Gitee Pages");
-  console.log("  2. 部署分支选 gh-pages，目录留空（根目录）");
-  console.log("  3. 点击「启动」");
-  console.log(`  4. 访问 https://chunshan0.gitee.io/essay-chat`);
+  console.log("  GitHub Pages 会自动部署，1-2 分钟后可访问：");
+  console.log("  https://chunshan0.github.io/essay-chat");
+  console.log("\n  首次使用需在 GitHub 仓库 Settings → Pages 开启服务：");
+  console.log("  Source 选 gh-pages 分支，目录选 / (root)");
 }
 
 main();
