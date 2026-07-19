@@ -22,6 +22,15 @@ export default defineNuxtConfig({
   },
 
   ssr: true,
+
+  // 禁用 payload 分离：Nuxt 3 默认将 useAsyncData 的数据分离到 _payload.json 文件，
+  // 导致 inline __NUXT_DATA__ 的 state 为空。客户端 hydration 时 useAsyncData 找不到数据，
+  // 尝试 re-fetch 调用 queryContent，但 SSG 模式下客户端没有 content 数据库，返回 null，
+  // 组件渲染"文章不存在"覆盖 SSR 内容。禁用后数据直接内联到 __NUXT_DATA__ 中。
+  experimental: {
+    payloadExtraction: false
+  },
+
   nitro: {
     prerender: {
       crawlLinks: true,
